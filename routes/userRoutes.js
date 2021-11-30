@@ -112,6 +112,7 @@ router.post("/login", async function (req, res) {
     //Authenticate user
     try {
         const { email, password } = req.body;
+        console.log({ email, password });
         const user = await db.query(
             "SELECT * FROM user_table WHERE user_email = ($1)",
             [email]
@@ -119,29 +120,31 @@ router.post("/login", async function (req, res) {
 
         //* Checking Email
         if (user.length < 1) {
-            res.status(400).send(
-                "Your email or password is invalid. Please try again."
-            );
+            return res
+                .status(400)
+                .send("Your email or password is invalid. Please try again.");
         }
 
         //* Checking Password
         const hash = user[0].user_password;
         bcrypt.compare(password, hash, function (err, result) {
             if (result == false) {
-                res.status(400).send(
-                    "Your email or password is invalid. Please try again."
-                );
+                return res
+                    .status(400)
+                    .send(
+                        "Your email or password is invalid. Please try again."
+                    );
             } else if (result === true) {
                 //* AUTHENTICATED
                 const userObj = user[0];
 
                 const acessToken = jwt.sign(userObj, process.env.TOKEN_SECRET);
 
-                res.status(200).json({ user, token: acessToken });
+                return res.status(200).json({ user, token: acessToken });
             }
         });
     } catch (err) {
-        res.status(400).send(err);
+        return res.status(400).send(err);
     }
 });
 
