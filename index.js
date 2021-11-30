@@ -1,6 +1,5 @@
 const express = require("express");
 const app = express();
-const port = 5432;
 const userRoutes = require("./routes/userRoutes");
 const deckRoutes = require("./routes/deckRoutes");
 var cors = require("cors");
@@ -12,6 +11,6 @@ app.use(express.json()); //have acces to request.body
 app.use("/api/users", userRoutes);
 app.use("/api/decks", deckRoutes);
 
-app.listen(port, () => {
+app.listen(process.env.PORT || 5000, () => {
     console.log(`Listening at http://localhost:${port}`);
 });
