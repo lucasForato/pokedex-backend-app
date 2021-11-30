@@ -129,6 +129,7 @@ router.post("/login", async function (req, res) {
         console.log("got here2");
         //* Checking Password
         const hash = user[0].user_password;
+        console.log(hash);
         bcrypt.compare(password, hash, function (err, result) {
             if (result == false) {
                 console.log("got here 3");
