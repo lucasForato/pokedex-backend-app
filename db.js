@@ -1,12 +1,11 @@
-var fs = require("fs");
 require("dotenv").config();
-var pgp = require("pg-promise")();
+const { Pool } = require("pg");
 
-const config = {
+const db = new Pool({
     connectionString: process.env.DATABASE_URL,
-    // Beware! The ssl object is overwritten when parsing the connectionString
-};
-
-const db = pgp(config);
+    ssl: {
+        rejectUnauthorized: false,
+    },
+});
 
 module.exports = db;
