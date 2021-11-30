@@ -12,5 +12,5 @@ app.use("/api/users", userRoutes);
 app.use("/api/decks", deckRoutes);
 
 app.listen(process.env.PORT || 5000, () => {
-    console.log(`Listening at http://localhost:${port}`);
+    console.log(`listening on port: ${process.env.PORT}`);
 });
