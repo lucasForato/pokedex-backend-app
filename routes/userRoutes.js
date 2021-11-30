@@ -118,6 +118,7 @@ router.post("/login", async function (req, res) {
             [email]
         );
 
+        console.log("got here");
         //* Checking Email
         if (user.length < 1) {
             return res
@@ -125,10 +126,12 @@ router.post("/login", async function (req, res) {
                 .send("Your email or password is invalid. Please try again.");
         }
 
+        console.log("got here2");
         //* Checking Password
         const hash = user[0].user_password;
         bcrypt.compare(password, hash, function (err, result) {
             if (result == false) {
+                console.log("got here 3");
                 return res
                     .status(400)
                     .send(
@@ -136,10 +139,11 @@ router.post("/login", async function (req, res) {
                     );
             } else if (result === true) {
                 //* AUTHENTICATED
+                console.log("got here 4");
                 const userObj = user[0];
 
                 const acessToken = jwt.sign(userObj, process.env.TOKEN_SECRET);
-
+                console.log(acessToken);
                 return res.status(200).json({ user, token: acessToken });
             }
         });
