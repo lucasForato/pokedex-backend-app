@@ -26,7 +26,6 @@ router.post("/", async (req, res) => {
     try {
         const { username, email, password } = req.body;
 
-        console.log({ username, email, password });
         if (username === "" || email === "" || password === "") {
             return res.sendStatus(400);
         }
@@ -52,7 +51,6 @@ router.post("/", async (req, res) => {
             return res.sendStatus(400);
         }
 
-        console.log("5");
         // * hash password and create user
         const saltRounds = 10;
         await bcrypt.hash(password, saltRounds, async function (err, hash) {
@@ -60,13 +58,12 @@ router.post("/", async (req, res) => {
                 return res.status(400).json(err);
             }
 
-            console.log("6");
             const newUser = await db.query(
                 "INSERT INTO user_table (user_name, user_email, user_password) VALUES($1, $2, $3) RETURNING *",
                 [username, email, hash]
             );
-            console.log("7");
-            return res.status(200).json(newUser);
+            console.log(newUser);
+            res.status(200).json(newUser);
         });
     } catch (err) {
         return res.status(400).json(err);
