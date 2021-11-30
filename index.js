@@ -11,6 +11,6 @@ app.use(express.json()); //have acces to request.body
 app.use("/api/users", userRoutes);
 app.use("/api/decks", deckRoutes);
 
-app.listen(process.env.PORT || 5000, () => {
+app.listen(process.env.PORT || 3002, () => {
     console.log(`listening on port: ${process.env.PORT}`);
 });
